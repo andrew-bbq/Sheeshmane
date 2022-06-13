@@ -48,7 +48,7 @@ class DiscordProxy {
     setupMsgReceiveTrigger() {
         this.client.on('messageCreate', msg => {
             // if message has a link and is in unimportant channel, add emojis
-            if ((msg.content.includes(".com/") || msg.content.includes('.org/')) && msg.channelId == this.unimportant) {
+            if ((msg.content.includes(".com/") || msg.content.includes("youtu.be") || msg.content.includes('.org/')) && msg.channelId == this.unimportant) {
                 msg.react("💯");
                 msg.react("💩");
             }
@@ -64,7 +64,7 @@ class DiscordProxy {
         const unimp_reacts = message.reactions.cache.get("💩");
         const imp_count = imp_reacts ? imp_reacts.count : 0;
         const unimp_count = unimp_reacts ? unimp_reacts.count : 0;
-        return ((imp_count - unimp_count) >= 1);
+        return ((imp_count - unimp_count) >= 5);
     }
 
     propagateMessage (message) {
