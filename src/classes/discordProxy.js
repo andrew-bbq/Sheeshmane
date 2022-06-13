@@ -25,6 +25,8 @@ class DiscordProxy {
             }
             if (this.checkReactions(reaction.message)) {
                 this.propagateMessage(reaction.message);
+            } else {
+                this.deletePastMessage(reaction.message);
             }
         });
     }
@@ -41,6 +43,8 @@ class DiscordProxy {
             }
             if (this.checkReactions(reaction.message)) {
                 this.propagateMessage(reaction.message);
+            } else {
+                this.deletePastMessage(reaction.message);
             }
         });
     }
@@ -79,6 +83,17 @@ class DiscordProxy {
             if ( exit ) return false;
             channel.send(message.content + ", submitted by <@" + message.author + ">");
             return true;
+        });
+    }
+
+    deletePastMessage (message) {
+        const channel = this.client.channels.cache.get(this.important);
+        channel.messages.fetch({ limit: 100 }).then(msgs => {
+            msgs.forEach(msg => {
+                if (msg.content.includes(message.content)) {
+                    msg.delete();
+                }
+            });
         });
     }
 }
