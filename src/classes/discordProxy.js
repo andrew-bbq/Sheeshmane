@@ -87,6 +87,7 @@ class DiscordProxy {
     }
 
     deletePastMessage (message) {
+        if(message.content.length < 6) return;
         const channel = this.client.channels.cache.get(this.important);
         channel.messages.fetch({ limit: 100 }).then(msgs => {
             msgs.forEach(msg => {
